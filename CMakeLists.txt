@@ -4,7 +4,7 @@ project(GQLlite)
 
 set(CMAKE_CXX_STANDARD 14)
 
-include_directories(./include ./libmdbx)
+include_directories(./include ./libmdbx ./PEGTL/include)
 
 aux_source_directory(src BASE_SOURCES)
 aux_source_directory(src/QueryEngine QueryEngine_SOURCES)

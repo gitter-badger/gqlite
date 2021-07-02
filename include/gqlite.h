@@ -1,7 +1,11 @@
 #pragma once
 #include <stdint.h>
 
+#ifdef _WIN32
+#define SYMBOL_EXPORT
+#else
 #define SYMBOL_EXPORT __attribute__((visibility("default")))
+#endif
 
 struct gqlite;
 

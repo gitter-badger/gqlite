@@ -1,17 +1,30 @@
 #include "gqlite.h"
+#include "GQliteImpl.h"
+#include <atomic>
 
-int gqlite_open(const char* filename, gqlite** ppDb)
+std::atomic<bool> _gqlite_g_close_flag_ = false;
+
+SYMBOL_EXPORT int gqlite_open_with_mode(const char* filename, gqlite** ppDb, gqlite_open_mode mode)
 {
-
-    return 0;
+  GQLiteImpl* impl = new GQLiteImpl();
+  *ppDb = (gqlite*)impl;
+  return impl->open(filename, mode);
 }
 
-int gqlite_close(gqlite*)
+SYMBOL_EXPORT int gqlite_open(const char* filename, gqlite** ppDb)
 {
-    return 0;
+  gqlite_open_mode mode;
+  mode.st_schema = gqlite_disk;
+  return gqlite_open_with_mode(filename, ppDb, mode);
 }
 
-int gqlite_create(gqlite* pDb, const char* gql)
+SYMBOL_EXPORT int gqlite_close(gqlite*)
 {
-    return 0;
+  _gqlite_g_close_flag_.store(true);
+  return 0;
+}
+
+SYMBOL_EXPORT int gqlite_create(gqlite* pDb, const char* gql)
+{
+  return 0;
 }

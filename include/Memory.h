@@ -2,7 +2,7 @@
 
 class GMemory {
 public:
-  static void* Malloc(size_t len);
+  static void* Malloc(long len);
   static void Free(void* ptr);
   
 private:
@@ -12,5 +12,5 @@ private:
 private:
   void* _cache = nullptr;
   long* _stack = nullptr;
-  size_t _top_index = 0;
+  long _top_index = 0;
 };

@@ -1,6 +1,21 @@
 #pragma once
 #include "gqlite.h"
 #include <mdbx.h++>
+#include "Graph.h"
+#include <map>
+
+template<int Kind>
+struct Link
+{
+    uint32_t _id;
+    uint16_t _lcnt;      // link count
+    uint32_t* _links;
+    double _weight;
+};
+
+typedef Link<1> Vertex;
+typedef Link<2> Edge;
+typedef Link<3> Group;
 
 class GStorageEngine {
 public:
@@ -9,9 +24,9 @@ public:
 
     int create(const char* filename);
 
-    int openGraph();
+    int openGraph(const char* name, GGraph*& pGraph);
 
-    int closeGraph();
+    int closeGraph(GGraph* pGraph);
 
     int startTrans();
 
@@ -49,4 +64,6 @@ public:
 
 private:
     mdbx::env_managed _env;
+    mdbx::txn _txn;
+    std::map<std::string, mdbx::map_handle> _mHandle;
 };

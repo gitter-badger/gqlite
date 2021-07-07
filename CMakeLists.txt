@@ -18,7 +18,7 @@ aux_source_directory(src/StorageEngine StorageEngine_SOURCES)
 aux_source_directory(src/Type Type_SOURCES)
 add_subdirectory(libmdbx)
 
-message(${BASE_SOURCES})
+message("USE COMPILER: " ${CMAKE_CXX_COMPILER_ID})
 add_library(gqlite ${BASE_SOURCES} ${QueryEngine_SOURCES} ${StorageEngine_SOURCES} ${Type_SOURCES})
 target_link_libraries(gqlite mdbx-static)
 

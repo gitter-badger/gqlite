@@ -25,24 +25,20 @@ int GQLiteImpl::open(const char* filename, gqlite_open_mode mode)
 
 int GQLiteImpl::create(const char* filename, gqlite_open_mode mode)
 {
-  Instruction i;
-  i._ops = OP_GraphDB;
-  i._v3type = PTR_Str;
   size_t len = strlen(filename);
-  i._v3.s = (char*)malloc(sizeof(char) * len);
-  if (!i._v3.s) {
+  GQL_DEBUG("111222");
+  char* str = (char*)malloc(sizeof(char) * len);
+  if (!str) {
     return ECode_No_Memory;
   }
+  GQL_DEBUG("11111");
+  Instruction i;
   i._indx = GProgram::GenerateIndex();
-  i._ops = OP_Program;
-  i._v1 = PROGRAM_Start;
   _pVirtualEngine->addInstruction(i);
-  memcpy(i._v3.s, filename, len);
-  _pVirtualEngine->addInstruction(i);
-  i._ops = OP_Return;
-  _pVirtualEngine->addInstruction(i);
-  i._ops = OP_Program;
-  i._v1 = PROGRAM_Finish;
-  _pVirtualEngine->addInstruction(i);
+  i._ops = OP_GraphDB;
+  i._v3type = PTR_Str;
+  memcpy(str, filename, len);
+  i._v3.s = str;
+  _pVirtualEngine->awaitExecute(i);
   return ECode_Success;
 }

@@ -51,6 +51,6 @@ extract to script:
 
 int main() {
     gqlite* pHandle = 0;
-    gqlite_open("test", &pHandle);
+    gqlite_open("gql_db", &pHandle);
     gqlite_close(pHandle);
 }

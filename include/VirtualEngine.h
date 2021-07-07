@@ -1,7 +1,6 @@
 #pragma once
 #include "QueryEngine.h"
 #include "StorageEngine.h"
-#include <stack>
 #include <thread>
 #include <mutex>
 
@@ -19,9 +18,8 @@ enum OPS{
     OP_Return,
     OP_Halt,
     // graph operation
-    OP_GraphDB,      // OP_GraphDB, 1/2, NULL, path:    create or delete db with path
-    OP_OpenGraph,    // 
-    OP_CloseGraph,
+    OP_GraphDB,      // OP_GraphDB, return, NULL, path:    create or delete db with path
+    OP_Graph,        // OP_Graph, return, 1/2, name: create or delete a graph
     OP_Trans,       
     OP_Set,
     OP_Get,
@@ -54,11 +52,15 @@ public:
   ~GVirtualEngine();
 
   void addInstruction(const Instruction& instruction);
-private:
-  void interpret();
+  void awaitExecute(Instruction& instruction);
 
 private:
-  std::stack<Instruction> _instructions;
+  void execute();
+  void interpret(Instruction& i);
+
+private:
+  Instruction _instructions[512];
+  int _top;
   std::thread _tInterpret;
   std::mutex _m;
   GStorageEngine* _pStorageEngine;

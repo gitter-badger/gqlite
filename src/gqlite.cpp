@@ -1,8 +1,9 @@
 #include "gqlite.h"
 #include "GQliteImpl.h"
 #include <atomic>
+#include "Error.h"
 
-std::atomic<bool> _gqlite_g_close_flag_ = false;
+std::atomic<bool> _gqlite_g_close_flag_(false);
 
 SYMBOL_EXPORT int gqlite_open_with_mode(const char* filename, gqlite** ppDb, gqlite_open_mode mode)
 {
@@ -18,9 +19,10 @@ SYMBOL_EXPORT int gqlite_open(const char* filename, gqlite** ppDb)
   return gqlite_open_with_mode(filename, ppDb, mode);
 }
 
-SYMBOL_EXPORT int gqlite_close(gqlite*)
+SYMBOL_EXPORT int gqlite_close(gqlite* gql)
 {
   _gqlite_g_close_flag_.store(true);
+  delete gql;
   return 0;
 }
 

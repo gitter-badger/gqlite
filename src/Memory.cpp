@@ -9,7 +9,7 @@ namespace {
   GMemory* _gqlite_memory = nullptr;
 }
 
-void* GMemory::Malloc(size_t len)
+void* GMemory::Malloc(long len)
 {
   std::call_once(of, []() {
     if (!_gqlite_memory) {

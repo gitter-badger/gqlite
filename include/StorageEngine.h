@@ -4,19 +4,6 @@
 #include "Graph.h"
 #include <map>
 
-template<int Kind>
-struct Link
-{
-    uint32_t _id;
-    uint16_t _lcnt;      // link count
-    uint32_t* _links;
-    double _weight;
-};
-
-typedef Link<1> Vertex;
-typedef Link<2> Edge;
-typedef Link<3> Group;
-
 class GStorageEngine {
 public:
     GStorageEngine();
@@ -63,7 +50,12 @@ public:
     int registCostFunc();
 
 private:
+    /*
+     * @brief schema is used to record all the graph's name
+     */
+    void schema();
+private:
     mdbx::env_managed _env;
     mdbx::txn _txn;
-    std::map<std::string, mdbx::map_handle> _mHandle;
+    std::map<std::string, GGraph*> _mHandle;
 };

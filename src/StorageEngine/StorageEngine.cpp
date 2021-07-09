@@ -30,7 +30,14 @@ int GStorageEngine::openGraph(const char* name, GGraph*& pGraph) {
     if (ptr == _mHandle.end()) {
         mdbx::map_handle handle = _txn.create_map(name, mdbx::key_mode::ordinal, mdbx::value_mode::single);
         if (handle.dbi == 0) return ECode_DB_Create_Fail;
-        _mHandle[name] = handle;
+        pGraph = new GGraph();
+        _mHandle[name] = pGraph;
     }
+    return 0;
+}
+
+int GStorageEngine::closeGraph(GGraph* pGraph) {
+    if (pGraph == nullptr) return 0;
+    
     return 0;
 }

@@ -1,7 +1,14 @@
-# GQLlite
+# GQLlite  
+This is the expriments for testing boundery of graph database in embedding device.  
+## Designed
 
 ## Create Graph
-
+```
+{
+    create: 'graph',
+    in: 'memory'/'disk'     // default is disk
+}
+```
 ## Add Vertex & Edge
 add vertex:
 ```
@@ -19,8 +26,8 @@ add edge:
 {
     add: 'graph',
     edge: [
-        ['Tom', {'relation': 'son', from: 'Tom', to: 'Jimmy'}, 'Jimmy'],
-        ['Kitty', {'relation': 'wife', from: 'Kitty', to: 'Jimmy'}, 'Jimmy'],
+        ['Tom', {'->': 'son'}, 'Jimmy'],
+        ['Kitty', {'<-': 'wife'}, 'Jimmy'],
     ]
 }
 ```
@@ -59,7 +66,7 @@ add edge:
     query: '*',
     from: 'vertex',
     start: 'p',
-    relation: 'son',
+    '->': 'son',
     in: 'graph'
 }
 ```
@@ -68,24 +75,46 @@ add edge:
     query: '*',
     from: 'vertex',
     start: 'p',
-    relation: 'friend',
+    '->': 'friend',
     where: [
         {vertex: function(vertex) { return vertex.age > 10}}
     ],
     in: 'graph'
 }
 ```
+query a list of vertex from p1 to p2, with condition defined by function:
+```
 {
     query: '*',
     from: 'vertex',
-    start: 'p',
-    relation: 'friend',
+    start: 'p1',
+    end: 'p2',
+    '--': 'friend',
     where: [
-        {relation: function(relation) { return relation.weight > 0.75}}
+        {'--': function(left, relation, right) { return relation.weight > 0.75}}
     ],
     in: 'graph'
 }
 ```
+## Inference
+Here we define a kind of inference operator, and apply it to a graph.  
+First Order Logic:
+```
+{
+    infer: '*',
+    start: 'p',
+    in: 'graph',
+    define: function reverse(relation) { return 'father'}
+}
+```
+HMM:
+```
+{
+    infer: '*',
+    start: ['p1', 'p2', 'p3'],
+    in: 'graph',
+    '->': function(from, to) {return 0.5;}
+}
+```
 ## Ceate Job
-
 ## Transition

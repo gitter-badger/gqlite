@@ -22,6 +22,7 @@ int GStorageEngine::create(const char* filename) {
     env::operate_parameters operator_param;
 
     _env = env_managed(filename, create_param, operator_param);
+    _txn = _env.start_write();
     return 0;
 }
 
@@ -37,7 +38,8 @@ int GStorageEngine::openGraph(const char* name, GGraph*& pGraph) {
 }
 
 int GStorageEngine::closeGraph(GGraph* pGraph) {
-    if (pGraph == nullptr) return 0;
-    
+    // if (pGraph == nullptr) return 0;
+    _txn.commit();
+    _env.close();
     return 0;
 }

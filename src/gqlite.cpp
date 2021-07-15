@@ -3,6 +3,8 @@
 #include <atomic>
 #include "Error.h"
 
+#define CHECK_NULL_PTR(p) {if (!p) return ECODE_NULL_PTR;}
+
 std::atomic<bool> _gqlite_g_close_flag_(false);
 
 SYMBOL_EXPORT int gqlite_open_with_mode(const char* filename, gqlite** ppDb, gqlite_open_mode mode)
@@ -26,7 +28,31 @@ SYMBOL_EXPORT int gqlite_close(gqlite* gql)
   return 0;
 }
 
-SYMBOL_EXPORT int gqlite_create(gqlite* pDb, const char* gql)
+SYMBOL_EXPORT int gqlite_exec(gqlite* pDb, const char* gql, int (*gqlite_callback)(void*), void*)
+{
+  CHECK_NULL_PTR(pDb);
+  GQLiteImpl* impl = (GQLiteImpl*)pDb;
+  int ret = impl->exec(gql);
+  if (ECode_Success != ret) {
+
+  }
+  return ret;
+}
+
+SYMBOL_EXPORT int gqlite_create(gqlite* pDb, const char* gql, gqlite_statement* statement)
+{
+  CHECK_NULL_PTR(pDb);
+  GQLiteImpl* impl = (GQLiteImpl*)pDb;
+  return 0;
+}
+
+SYMBOL_EXPORT int gqlite_execute(gqlite* pDb, gqlite_statement* statement)
+{
+  CHECK_NULL_PTR(pDb);
+  return 0;
+}
+
+SYMBOL_EXPORT const char* gqlite_error(int error)
 {
   return 0;
 }

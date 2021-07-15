@@ -15,9 +15,9 @@ public:
 
     int closeGraph(GGraph* pGraph);
 
-    int startTrans();
+    // int startTrans();
 
-    int commitTrans();
+    // int commitTrans();
 
     int rollbackTrans();
 
@@ -56,6 +56,6 @@ private:
     void schema();
 private:
     mdbx::env_managed _env;
-    mdbx::txn _txn;
+    mdbx::txn_managed _txn;
     std::map<std::string, GGraph*> _mHandle;
 };

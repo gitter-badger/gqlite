@@ -49,8 +49,22 @@ extract to script:
 */
 #include "../include/gqlite.h"
 
+int gqlite_exec_callback(void* params )
+{
+    return 0;
+}
+
 int main() {
     gqlite* pHandle = 0;
     gqlite_open("gql_db", &pHandle);
+    gqlite_exec(pHandle,
+    "{\
+        create: 'graph',\
+        in: 'memory'\
+    }", gqlite_exec_callback, nullptr);
+    gqlite_exec(pHandle,
+    "{\
+        drop: 'graph'\
+    }", gqlite_exec_callback, nullptr);
     gqlite_close(pHandle);
 }

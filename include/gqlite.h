@@ -42,11 +42,11 @@ extern "C" {
 
   SYMBOL_EXPORT int gqlite_open(const char* filename, gqlite** ppDb);
   SYMBOL_EXPORT int gqlite_open_with_mode(const char* filename, gqlite** ppDb, gqlite_open_mode mode);
-SYMBOL_EXPORT int gqlite_create(gqlite* pDb, const char* gql);
-SYMBOL_EXPORT void gqlite_insert(gqlite* pDb, const char* gql);
-SYMBOL_EXPORT void gqlite_update(gqlite* pDb, const char* gql);
-SYMBOL_EXPORT void gqlite_drop(gqlite* pDb, const char* gql);
-SYMBOL_EXPORT void gqlite_query(gqlite* pDb, const char* gql, gqlite_statement statement);
+  SYMBOL_EXPORT int gqlite_exec(gqlite* pDb, const char* gql, int (*gqlite_callback)(void*), void*);
+SYMBOL_EXPORT int gqlite_create(gqlite* pDb, const char* gql, gqlite_statement** statement);
+SYMBOL_EXPORT int gqlite_execute(gqlite* pDb, gqlite_statement* statement);
+SYMBOL_EXPORT int glqite_bind_int(gqlite_statement* statement, int idx, int value);
+SYMBOL_EXPORT int glqite_bind_string(gqlite_statement* statement, int idx, const char* value);
 SYMBOL_EXPORT int gqlite_close(gqlite*);
 SYMBOL_EXPORT const char* gqlite_error(int error);
 

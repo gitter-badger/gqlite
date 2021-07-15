@@ -1,17 +1,17 @@
 #include "GQliteImpl.h"
-#include "QueryEngine.h"
+#include "ParserEngine.h"
 #include "Platform.h"
 #include "Program.h"
 #include "Error.h"
 
 GQLiteImpl::GQLiteImpl()
-  :_pQueryEngine(new GQueryEngine)
+  :_pParserEngine(new GParserEngine)
   , _pVirtualEngine(new GVirtualEngine)
 {}
 
 GQLiteImpl::~GQLiteImpl()
 {
-  delete _pQueryEngine;
+  delete _pParserEngine;
   delete _pVirtualEngine;
 }
 
@@ -40,5 +40,10 @@ int GQLiteImpl::create(const char* filename, gqlite_open_mode mode)
   memcpy(str, filename, len);
   i._v3.s = str;
   _pVirtualEngine->awaitExecute(i);
+  return ECode_Success;
+}
+
+int GQLiteImpl::exec(const char* gql)
+{
   return ECode_Success;
 }

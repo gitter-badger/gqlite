@@ -1,4 +1,7 @@
 # GQLlite  
+
+[![Join the chat at https://gitter.im/webbery/gqlite](https://badges.gitter.im/webbery/gqlite.svg)](https://gitter.im/webbery/gqlite?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 This is the expriments for testing boundery of graph database in embedding device.  
 ## Designed
 
